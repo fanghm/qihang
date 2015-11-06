@@ -1,5 +1,5 @@
 /*
-*移动端图片压缩上传功能后台
+ * 移动端图片压缩上传功能后台
  */
 "use strict";
 
@@ -15,38 +15,45 @@ router.setMap({
 });
 
 function cupload(req , res){
-    if(!fs.existsSync(fileSaveDir)){fs.mkdirSync(fileSaveDir)}
+    if (!fs.existsSync(fileSaveDir)) {
+        fs.mkdirSync(fileSaveDir);
+    }
 
     var formparser = new FormParser(fileSaveDir);
 
     req.encoding = "utf-8";
-    req.on('data' , function(chunk){
+    req.on('data' , function(chunk) {
         formparser.push(chunk);
     });
 
-    req.on("end",function(){
+    req.on("end",function() {
         var data = [];
-        formparser.formDataArray.forEach(function(fdata){
-            switch (fdata.type){
+        formparser.formDataArray.forEach(function(fdata) {
+            switch (fdata.type) {
                 case "image":
                     data.push({
                         type : fdata.type,
-                        path : '/public/upload/'+fdata.filename,
+                        path : '/public/upload/' + fdata.filename,
                         size : fdata.size/1024 > 1024 ? (~~(10*fdata.size/1024/1024))/10 + "MB" :  ~~(fdata.size/1024) + "KB"
                     });
 
-//                  每张图片给予一分钟保存时间
+/*
+                    // 每张图片保留一分钟
                     setTimeout(function(){
                         if(!fs.existsSync(fdata.path)) return;
 
-                        console.log("\x1B[33m保存超时，删除文件" + fdata.filename + "\x1B[0m");
+                        console.log("\x1B[33m删除文件" + fdata.filename + "\x1B[0m");
                         fs.unlinkSync(fdata.path);
                     } , 60 * 1000);
+*/
 
                     break;
-                default :break;
+
+                default:
+                    break;
             }
         });
+
         formparser.clear();
 
         res.writeHead(200);
