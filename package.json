@@ -1,0 +1,15 @@
+{
+  "name": "homework",
+  "version": "1.0.0",
+  "description": "A web tool to facilitate communication between school teachers and student parents",
+  "main": "app.js",
+  "dependencies": {
+    "easy-router": "^2.1.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Frank",
+  "license": "GNU"
+}
